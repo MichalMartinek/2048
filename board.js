@@ -65,8 +65,14 @@ class Board {
             this.rotateLeft();
         }
     }
-    hasLost() {
-
-    }
 }
-let board = new Board();
+class Game {
+    constructor() {
+        this.board = new Board();
+    }
+    print() {
+        this.board.print();
+    }
+
+}
+let g = new Game();
