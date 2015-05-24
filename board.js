@@ -1,6 +1,7 @@
 class Board {
     constructor() {
         this.tiles = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+        this.addRandom();
     }
     print() {
         this.tiles.map(x => x.join(' ')).map(x => console.log(x));
@@ -17,7 +18,7 @@ class Board {
         this.tiles[random[0]][random[1]] = 2
     }
     slideLeft() {
-        let w = 0;
+        let w = false;
         let tiles = [[],[],[],[]];
         this.tiles.forEach(function(x,i){
             let r = x.filter(x => x!=0 );
@@ -52,27 +53,59 @@ class Board {
             }
             return column;
         }
-        let tiles = [getCol(this.tiles,3), getCol(this.tiles,2),
+        this.tiles = [getCol(this.tiles,3), getCol(this.tiles,2),
             getCol(this.tiles,1),getCol(this.tiles,0)];
-        this.tiles = tiles;
     }
     slide(direction) {
-        // 0 -> left, 1 -> up, 2 -> right, 3 -> down
+        /*  1
+          0   2
+            3   */
         for(let i = 0; i < direction; i++)
             this.rotateLeft();
-        this.slideLeft();
-        for (var i = direction; i < 4; i++) {
+        let w = this.slideLeft();
+        for (let i = direction; i < 4; i++) {
             this.rotateLeft();
         }
+        return w;
+    }
+    hasLost () {
+        let canMove = false;
+        let deltaX = [-1, 0, 1, 0];
+        let deltaY = [0, -1, 0, 1];
+        for (let i = 0; i < 4; i++) {
+            for (let j =0; j < 4; j++) {
+                canMove |= (this.tiles[i][j] == 0);
+                for (let k = 0; k < 4; k++) {
+                    var newRow = i + deltaX[k];
+                    var newColumn = j + deltaY[k];
+                    if (newRow < 0 || newRow >= 4 || newColumn < 0
+                        || newColumn >= 4) {
+                        continue;
+                    }
+                    canMove|= (this.tiles[i][j]==this.tiles[newRow][newColumn]);
+                }
+            }
+        }
+        return !canMove;
     }
 }
 class Game {
     constructor() {
         this.board = new Board();
     }
-    print() {
+    slide(direction) {
+        if(this.board.slide(direction)) {
+            //TODO: Výhra
+            alert("Výhra");
+        }
+        else if(this.board.hasLost()) {
+            //TODO: Prohra
+            alert("Prohra");
+        }
         this.board.print();
     }
-
+    restart() {
+        this.board = new Board();
+    }
 }
 let g = new Game();
