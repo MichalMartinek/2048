@@ -44,7 +44,6 @@ let board = new Board();
            board = new Board();
        }
         this.setState({tiles: board.tiles});
-        board.print();
     },
 	render: function () {
 		return (

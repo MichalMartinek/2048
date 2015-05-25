@@ -2,7 +2,6 @@ import React from 'react';
 
 var Table = React.createClass({
     shouldComponentUpdate: function(nextProps, nextState) {
-        console.log("A");
         return true;
     },
 	render: function () {
