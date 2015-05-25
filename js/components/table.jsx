@@ -1,11 +1,19 @@
 import React from 'react';
 
-var HelloWorld = React.createClass({
+var Table = React.createClass({
+    shouldComponentUpdate: function(nextProps, nextState) {
+        console.log("A");
+        return true;
+    },
 	render: function () {
+        let table = this.props.board.map(function(x, i){
+            return <div className="row">{x.map(function(y, j) {return <span key={i+","+j}>{y}</span>})}</div>});
 		return (
-			<h1 onClick={this.props.onClick}>Hello World</h1>
+			<div>
+                {table}
+            </div>
 		);
 	}
 });
 
-export default HelloWorld;
+export default Table;
