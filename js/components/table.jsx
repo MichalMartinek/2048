@@ -6,7 +6,7 @@ var Table = React.createClass({
     },
 	render: function () {
         let table = this.props.board.map(function(x, i){
-            return <div className="row">{x.map(function(y, j) {return <span key={i+","+j}>{y}</span>})}</div>});
+            return <ul className="row">{x.map(function(y, j) {return <li className={"tile t" + y} key={i+","+j}>{y}</li>})}</ul>});
 		return (
 			<div>
                 {table}

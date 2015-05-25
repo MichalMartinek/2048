@@ -4,8 +4,16 @@ var rename = require('gulp-rename');
 var connect = require('gulp-connect');
 var open = require('gulp-open');
 var watch = require('gulp-watch');
+var sass = require('gulp-sass');
 
 var port = process.env.port || 3031;
+
+
+gulp.task('sass', function () {
+	gulp.src('./sass/**/*.scss')
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulp.dest('build/css'));
+});
 
 gulp.task('browserify', function () {
 	gulp.src('js/app.jsx')
@@ -47,6 +55,7 @@ gulp.task('watch', function () {
 	gulp.watch(['js/**/*.js', 'js/**/*.jsx'], function () {
 		gulp.start('browserify');
 	});
+	gulp.watch('sass/**/*.scss', ['sass']);
 
 	gulp.watch('index.html', ['html']);
 	gulp.watch('js/**/*.jsx', ['jsx']);
@@ -54,4 +63,4 @@ gulp.task('watch', function () {
 
 gulp.task('default', ['browserify']);
 
-gulp.task('serve', ['browserify', 'connect', 'open' ,'watch']);
+gulp.task('serve', ['browserify', 'connect', 'open', 'sass' ,'watch']);

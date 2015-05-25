@@ -159,12 +159,12 @@ var Table = React.createClass({
     render: function render() {
         var table = this.props.board.map(function (x, i) {
             return React.createElement(
-                "div",
+                "ul",
                 { className: "row" },
                 x.map(function (y, j) {
                     return React.createElement(
-                        "span",
-                        { key: i + "," + j },
+                        "li",
+                        { className: "tile t" + y, key: i + "," + j },
                         y
                     );
                 })
